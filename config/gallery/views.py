@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import PictureForm
 from .models import Picture
 
 def home_page(request):
@@ -6,3 +7,16 @@ def home_page(request):
     context = { "images" : images }
 
     return render(request, "home.html", context)
+
+def adding_page(request):
+    if request.method == "POST":
+        form = PictureForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+            return redirect("home")
+    else:
+        form = PictureForm()
+    context = { "form" : form }
+
+    return render(request, "adding_page.html", context)
