@@ -19,4 +19,18 @@ def adding_page(request):
         form = PictureForm()
     context = { "form" : form }
 
-    return render(request, "adding_page.html", context)
+    return render(request, "adding_picture.html", context)
+
+def update_image(request, id):
+    image = Picture.objects.filter(id=id).first()
+    if request.method == "POST":
+        form = PictureForm(request.POST, instance=image)
+        if form.is_valid():
+            form.save()
+
+            return redirect("home")
+    else:
+        form = PictureForm(instance=image)
+    context = { "form" : form }
+
+    return render(request, "edit_picture.html", context)

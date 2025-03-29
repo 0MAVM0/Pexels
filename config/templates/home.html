@@ -108,11 +108,25 @@
                                             {{ image.created_at }}
                                         </p>
                                         <a
+                                            href="{% url 'update_image' image.id %}"
+                                            data-mdb-ripple-init
+                                            class="btn btn-warning"
+                                        >
+                                            Edit
+                                        </a>
+                                        <a
                                             href=""
                                             data-mdb-ripple-init
-                                            class="btn btn-primary"
+                                            class="btn btn-success"
                                         >
                                             Download
+                                        </a>
+                                        <a
+                                            href=""
+                                            data-mdb-ripple-init
+                                            class="btn btn-danger"
+                                        >
+                                            Delete
                                         </a>
                                     </div>
                                 </div>
