@@ -24,7 +24,7 @@ def adding_page(request):
 def update_image(request, id):
     image = Picture.objects.filter(id=id).first()
     if request.method == "POST":
-        form = PictureForm(request.POST, instance=image)
+        form = PictureForm(request.POST, request.FILES, instance=image)
         if form.is_valid():
             form.save()
 
@@ -34,3 +34,10 @@ def update_image(request, id):
     context = { "form" : form }
 
     return render(request, "edit_picture.html", context)
+
+def delete_image(request, id):
+    image = Picture.objects.filter(id=id).first()
+    if image:
+        image.delete()
+
+        return redirect("home")
