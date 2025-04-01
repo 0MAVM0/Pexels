@@ -1,12 +1,28 @@
 from django.shortcuts import render, redirect
+# from django.views import View
+from django.views.generic import ListView
 from .forms import PictureForm
 from .models import Picture
 
+'''
 def home_page(request):
     images = Picture.objects.all()
     context = { "images" : images }
 
     return render(request, "home.html", context)
+
+class HomePageView(View):
+    def get(self, request):
+        images = Picture.objects.all()
+        context = { "images" : images }
+
+        return render(request, "home.html", context)
+'''
+
+class HomePageView(ListView):
+    model = Picture
+    template_name = "home.html"
+    context_object_name = "images"
 
 def adding_page(request):
     if request.method == "POST":
