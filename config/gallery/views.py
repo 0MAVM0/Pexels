@@ -1,7 +1,12 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
-from django.views import View
+from django.contrib.auth.models import User
 from django.views.generic import ListView
+from django.urls import reverse_lazy
 from .forms import PictureForm
+from django.views import View
 from .models import Picture
 
 '''
@@ -36,7 +41,7 @@ class AddPhotoView(View):
         context = { "form" : form }
 
         return render(request, "adding_picture.html", context)
-    
+
     def get(self, request):
         form = PictureForm()
 
@@ -79,3 +84,11 @@ def delete_image(request, id):
         image.delete()
 
         return redirect("home")
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    template_name = "user/signup.html"
+    success_url = reverse_lazy("login")
+
+class CustomLoginView(LoginView):
+    template_name = "user/login.html"
