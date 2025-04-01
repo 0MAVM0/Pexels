@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-# from django.views import View
+from django.views import View
 from django.views.generic import ListView
 from .forms import PictureForm
 from .models import Picture
@@ -24,6 +24,27 @@ class HomePageView(ListView):
     template_name = "home.html"
     context_object_name = "images"
 
+class AddPhotoView(View):
+    def post(self, request):
+        form = PictureForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect("home")
+
+        context = { "form" : form }
+
+        return render(request, "adding_picture.html", context)
+    
+    def get(self, request):
+        form = PictureForm()
+
+        context = { "form" : form }
+
+        return render(request, "adding_picture.html", context)
+
+'''
 def adding_page(request):
     if request.method == "POST":
         form = PictureForm(request.POST, request.FILES)
@@ -36,6 +57,7 @@ def adding_page(request):
     context = { "form" : form }
 
     return render(request, "adding_picture.html", context)
+'''
 
 def update_image(request, id):
     image = Picture.objects.filter(id=id).first()
