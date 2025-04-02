@@ -111,12 +111,14 @@ class DeletePictureView(View):
 
             return redirect("home")
 
+'''
 def delete_image(request, id):
     image = Picture.objects.filter(id=id).first()
     if image:
         image.delete()
 
         return redirect("home")
+'''
 
 class SignUpView(CreateView):
     form_class = UserCreationForm
