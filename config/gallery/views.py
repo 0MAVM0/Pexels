@@ -29,7 +29,7 @@ class HomePageView(ListView):
     template_name = "home.html"
     context_object_name = "images"
 
-class AddPhotoView(View):
+class AddPictureView(View):
     def post(self, request):
         form = PictureForm(request.POST, request.FILES)
 
@@ -86,6 +86,7 @@ class EditPictureView(View):
 
         return render(request, "edit_picture.html", context)
 
+'''
 def update_image(request, id):
     image = Picture.objects.filter(id=id).first()
     if request.method == "POST":
@@ -99,6 +100,16 @@ def update_image(request, id):
     context = { "form" : form }
 
     return render(request, "edit_picture.html", context)
+'''
+
+class DeletePictureView(View):
+    def delete(self, request, id):
+        image = Picture.objects.filter(id=id).first()
+
+        if image:
+            image.delete()
+
+            return redirect("home")
 
 def delete_image(request, id):
     image = Picture.objects.filter(id=id).first()
