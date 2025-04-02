@@ -64,6 +64,28 @@ def adding_page(request):
     return render(request, "adding_picture.html", context)
 '''
 
+class EditPictureView(View):
+    def post(self, request, id):
+        image = Picture.objects.filter(id=id).first()
+        form = PictureForm(request.POST, request.FILES, instance=image)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect("home")
+
+        context = { "form" : form }
+
+        return render(request, "edit_picture.html", context)
+
+    def get(self, request, id):
+        image = Picture.objects.filter(id=id).first()
+        form = PictureForm(instance=image)
+
+        context = { "form" : form }
+
+        return render(request, "edit_picture.html", context)
+
 def update_image(request, id):
     image = Picture.objects.filter(id=id).first()
     if request.method == "POST":
